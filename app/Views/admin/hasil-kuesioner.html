@@ -1,0 +1,87 @@
+<?php if(session()->role_id == 1) : ?>
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+    <div class="flash" data-flashdata="<?= session()->getFlashdata('pesan'); ?>"></div>
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h3 mb-0 text-gray-800">Hasil Kuesioner</h1>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Data hasil</h6>
+              <a href="/export" class="btn btn-danger btn-sm btn-icon-split offset-5"><span
+                  class="icon text-white-50"><i class="fas fa-file-pdf"></i></span> <span class="text">pdf</span></a>
+            </div>
+            <div class="table-responsive">
+              <div class="card-body">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Gambar</th>
+                      <th>Nama</th>
+                      <th>Gender</th>
+                      <th>Jurusan</th>
+                      <th>Tahun Lulus</th>
+                      <th>Status Isi Kuesioner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                    $no = 1;
+                    foreach($hasil as $h) : ?>
+                    <tr>
+                      <td><?= $no++;?></td>
+                      <td> <img src="/assets/img/<?= $h['gambar']; ?>" alt="profile" style="width: 90px;"></td>
+                      <td><?= $h['nama']; ?></td>
+                      <td><?= $h['jenisKelamin']; ?></td>
+                      <td><?= $h['Jurusan']; ?></td>
+                      <td><?= $h['thn_lulus']; ?></td>
+                      <td><?= ($h['status_isi'] == 1) ? 'sudah' : 'belum';?></td>
+                    </tr>
+                    <?php endforeach;?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>
+<?php else : ?>
+<?php throw new \CodeIgniter\Router\Exceptions\RedirectException('/auth/blocked');; ?>
+<?php endif;?>

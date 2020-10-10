@@ -1,0 +1,92 @@
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Form</h1>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Edit user</h6>
+            </div>
+            <div class="card-body">
+              <form action="/user/updateuser/<?= $user['iduser'];?>" method="POST">
+                <?= csrf_field(); ?>
+                <input type="hidden" name="iduser" value="<?= $user['iduser'];?>">
+                <input type="hidden" name="_method" value="PUT" />
+                <div class="form-group row">
+                  <label for="username" class="col-sm-2 col-form-label">Usename</label>
+                  <div class="col-sm-10">
+                    <input type="text"
+                      class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : '' ?>" id="username"
+                      name="username" value="<?= (old('username')) ? old('username') : $user['username'] ;?>">
+                    <div class="invalid-feedback">
+                      <?= $validation->getError('username'); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="role" class="col-sm-2 col-form-label">Role</label>
+                  <div class="col-sm-10">
+                    <select class="form-control <?= ($validation->hasError('role')) ? 'is-invalid' : '' ?>" id="role"
+                      name="role">
+                      <option>-- pilih --</option>
+                      <?php foreach($role as $r) :?>
+                      <?php if($r['iduser_role'] == $user['role_id']) : ?>
+                      <option value="<?= (old('role')) ? old('role') : $r['iduser_role'] ;?>" selected>
+                        <?= $r['role'];?>
+                        <?php else :?>
+                      <option value="<?= $r['iduser_role'];?>"><?= $r['role'];?></option>
+                      <?php endif;?>
+                      <?php endforeach ;?>
+                    </select>
+                    <div class="invalid-feedback">
+                      <?= $validation->getError('role'); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Update user</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>

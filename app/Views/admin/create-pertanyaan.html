@@ -1,0 +1,124 @@
+        <?= $this->extend('template/layout.html'); ?>
+
+        <?= $this->section('content'); ?>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+          <!-- Main Content -->
+          <div id="content">
+
+            <?= $this->include('template/navbar.html'); ?>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+              <!-- Page Heading -->
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Form</h1>
+              </div>
+
+              <!-- Content Row -->
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Tambah pertanyaan</h6>
+                    </div>
+                    <div class="card-body">
+                      <form action="/kuesioner/savepertanyaan" method="POST">
+                        <?= csrf_field(); ?>
+                        <div class="form-group row">
+                          <label for="pertanyaan" class="col-sm-2 col-form-label">Pertanyaan</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('pertanyaan')) ? 'is-invalid' : '' ?>"
+                              id="pertanyaan" name="pertanyaan" value="<?= old('pertanyaan'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('pertanyaan'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="isi1" class="col-sm-2 col-form-label">isi</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('isi1')) ? 'is-invalid' : '' ?>" id="isi1"
+                              name="isi1" value="<?= old('isi1'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('isi1'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="isi2" class="col-sm-2 col-form-label">isi 2</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('isi2')) ? 'is-invalid' : '' ?>" id="isi2"
+                              name="isi2" value="<?= old('isi2'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('isi2'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="isi3" class="col-sm-2 col-form-label">isi 3</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('isi3')) ? 'is-invalid' : '' ?>" id="isi3"
+                              name="isi3" value="<?= old('isi3'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('isi3'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="isi4" class="col-sm-2 col-form-label">isi 4</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('isi4')) ? 'is-invalid' : '' ?>" id="isi4"
+                              name="isi4" value="<?= old('isi4'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('isi4'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="isi5" class="col-sm-2 col-form-label">isi 5</label>
+                          <div class="col-sm-10">
+                            <input type="text"
+                              class="form-control <?= ($validation->hasError('isi5')) ? 'is-invalid' : '' ?>" id="isi5"
+                              name="isi5" value="<?= old('isi5'); ?>">
+                            <div class="invalid-feedback">
+                              <?= $validation->getError('isi5'); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Tambah pertanyaan</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+          <!-- Footer -->
+          <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+              </div>
+            </div>
+          </footer>
+          <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+        <?= $this->endSection(); ?>

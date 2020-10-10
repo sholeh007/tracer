@@ -1,0 +1,342 @@
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+  <!-- Main Content -->
+  <div id="content">
+    <div class="flash" data-flashdata="<?= session()->getFlashdata('pesan');?>"></div>
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Edit Kuesioner</h1>
+      </div>
+      <small class="text-danger">*wajib</small>
+
+      <!-- Content Row -->
+      <div class="row mt-3">
+        <div class="col-lg">
+          <form action="/kuesioneralumni/saveeditkuesioner/<?=$kuesioner['alumni_iduser'];?>" method="POST">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="_method" value="PUT" />
+            <div class="form-group row">
+              <label for="nama" class="col-sm-3 col-form-label"><?= $quest[0] ;?><div class="text-danger d-inline">*
+                </div> </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control <?= ($validation->hasError('nama')) ? 'is-invalid' : '' ;?>"
+                  name="nama" id="nama" value="<?= (old('nama')) ? old('nama') : $kuesioner['nama'];?>">
+                <div class="invalid-feedback">
+                  <?= $validation->getError('nama'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="gender" class="col-sm-3 col-form-label"><?= $quest[1];?><div class="text-danger d-inline">*
+                </div></label>
+              <div class="col-sm-8">
+                <select class="form-control <?= ($validation->hasError('gender')) ? 'is-invalid' : '' ;?>" id="gender"
+                  name="gender" required>
+                  <option value="<?= old('gender'); ?>">-- pilih --</option>
+                  <?php foreach($gender as $g) :?>
+                  <?php if($g['idkelamin'] == $kuesioner['gender']) : ?>
+                  <option value="<?= ($g['idkelamin']);?>" selected><?= $g['jenisKelamin'];?></option>
+                  <?php else :?>
+                  <option value="<?= ($g['idkelamin']);?>"><?= $g['jenisKelamin'];?></option>
+                  <?php endif;?>
+                  <?php endforeach ;?>
+                </select>
+                <div class="invalid-feedback">
+                  <?= $validation->getError('gender'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="jurusan" class="col-sm-3 col-form-label"><?= $quest[3]; ?><div class="text-danger d-inline">*
+                </div></label>
+              <div class="col-sm-8">
+                <select class="form-control <?= ($validation->hasError('jurusan')) ? 'is-invalid' : '' ?>" id="jurusan"
+                  name="jurusan">
+                  <option>-- pilih --</option>
+                  <?php foreach($jurusan as $j) :?>
+                  <?php if($j['idjurusan'] == $kuesioner['jurusan']) : ?>
+                  <option value="<?= (old('jurusan')) ? old('jurusan') : $j['idjurusan'];?>" selected>
+                    <?= $j['Jurusan'];?>
+                  </option>
+                  <?php else : ?>
+                  <option value="<?= (old('jurusan')) ? old('jurusan') : $j['idjurusan'];?>">
+                    <?= $j['Jurusan'];?>
+                  </option>
+                  <?php endif;?>
+                  <?php endforeach ;?>
+                </select>
+                <div class="invalid-feedback">
+                  <?= $validation->getError('jurusan'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="lulus" class="col-sm-3 col-form-label"><?= $quest[2]; ?><div class="text-danger d-inline">
+                  *</div></label>
+              <div class="col-sm-8">
+                <select class="form-control <?= ($validation->hasError('lulus')) ? 'is-invalid' : '';?>" id="lulus"
+                  name="lulus" required>
+                  <option>-- pilih --</option>
+                  <?php for($i=2010;$i <= date('Y');$i++) {?>
+                  <?php if( $i == $kuesioner['thn_lulus']) : ?>
+                  <option value="<?= $i; ?>" selected>
+                    <?= $i;?>
+                  </option>
+                  <?php else :?>
+                  <option value="<?= $i; ?>">
+                    <?= $i;?>
+                  </option>
+                  <?php endif;?>
+                  <?php };?>
+                </select>
+                <div class="invalid-feedback">
+                  <?= $validation->getError('lulus'); ?>
+                </div>
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[4];?><div class="text-danger d-inline">
+                    *</div>
+                </legend>
+                <div class="col-sm-9">
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" id="sudah" name="bekerja" value="<?= $pilihan[4]; ?>"
+                      <?= ($pilihan[4] == $kuesioner['jawaban1']) ? 'checked' : ''; ?>>
+                    <label class="form-check-label">
+                      <?= $pilihan[4]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" id="belum" name="bekerja" onload="belum_cek()"
+                      value="<?= $pilihan2[4]; ?>" <?= ($pilihan2[4] == $kuesioner['jawaban1']) ? 'checked' : ''; ?>>
+                    <label class="form-check-label">
+                      <?= $pilihan2['4']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="form-group row">
+              <label for="instansi" class="col-sm-3 col-form-label"><?= $quest[5];?></label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control <?= ($validation->hasError('instansi')) ? 'is-invalid' : '' ?>"
+                  name="instansi" id="disable"
+                  value="<?= (old('instansi')) ? old('instansi') : $kuesioner['jawaban2'];?>">
+                <div class="invalid-feedback">
+                  <?= $validation->getError('instansi'); ?>
+                </div>
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[6]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="menunggu" value="<?= $pilihan[6]; ?>"
+                      <?= ($pilihan[6] == $kuesioner['jawaban3']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[6]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="menunggu" value="<?= $pilihan2[6]; ?>"
+                      <?= ($pilihan2[6] == $kuesioner['jawaban3']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['6']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="menunggu" value="<?= $pilihan3[6]; ?>"
+                      <?= ($pilihan3[6] == $kuesioner['jawaban3']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan3['6']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="menunggu" value="<?= $pilihan4[6]; ?>"
+                      <?= ($pilihan4[6] == $kuesioner['jawaban3']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan4['6']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="menunggu" value="<?= $pilihan5[6]; ?>"
+                      <?= ($pilihan5[6] == $kuesioner['jawaban3']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan5['6']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[7]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gaji" value="<?= $pilihan[7]; ?>"
+                      <?= ($pilihan[7] == $kuesioner['jawaban4']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[7]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gaji" value="<?= $pilihan2[7]; ?>"
+                      <?= ($pilihan2[7] == $kuesioner['jawaban4']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['7']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gaji" value="<?= $pilihan3[7]; ?>"
+                      <?= ($pilihan3[7] == $kuesioner['jawaban4']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan3['7']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gaji" value="<?= $pilihan4[7]; ?>"
+                      <?= ($pilihan4[7] == $kuesioner['jawaban4']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan4['7']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[8]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="materi" value="<?= $pilihan[8]; ?>"
+                      <?= ($pilihan[8] == $kuesioner['jawaban5']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[8]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="materi" value="<?= $pilihan2[8]; ?>"
+                      <?= ($pilihan2[8] == $kuesioner['jawaban5']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['8']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[9]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="pendukung" value="<?= $pilihan[9]; ?>"
+                      <?= ($pilihan[9] == $kuesioner['jawaban6']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[9]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="pendukung" value="<?= $pilihan2[9]; ?>"
+                      <?= ($pilihan2[9] == $kuesioner['jawaban6']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['9']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[10]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="hambatan" value="<?= $pilihan[10]; ?>"
+                      <?= ($pilihan[10] == $kuesioner['jawaban7']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[10]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="hambatan" value="<?= $pilihan2[10]; ?>"
+                      <?= ($pilihan2[10] == $kuesioner['jawaban7']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['10']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-3 pt-0"><?= $quest[11]; ?></legend>
+                <div class="col-sm-9">
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="skill" value="<?= $pilihan[11]; ?>"
+                      <?= ($pilihan[11] == $kuesioner['jawaban8']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan[11]; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="skill" value="<?= $pilihan2[11]; ?>"
+                      <?= ($pilihan2[11] == $kuesioner['jawaban8']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan2['11']; ?>
+                    </label>
+                  </div>
+                  <div class="form-check custom-control-inline">
+                    <input class="form-check-input" type="radio" name="skill" value="<?= $pilihan3[11]; ?>"
+                      <?= ($pilihan3[11] == $kuesioner['jawaban8']) ? 'checked' : ''; ?> />
+                    <label class="form-check-label">
+                      <?= $pilihan3['11']; ?>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="form-group row">
+              <label for="saran" class="col-sm-3 col-form-label"><?= $quest[12] ;?></label>
+              <div class="col-sm-8">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                  name="saran"><?= htmlspecialchars($kuesioner['jawaban9']);?></textarea>
+                <div class="invalid-feedback">
+                  <?= $validation->getError('saran'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Edit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>

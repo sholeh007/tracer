@@ -1,0 +1,50 @@
+        <?= $this->extend('template/layout.html'); ?>
+
+        <?= $this->section('content'); ?>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+          <!-- Main Content -->
+          <div id="content">
+
+            <?= $this->include('template/navbar.html'); ?>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+              <?php if($info['email'] == '') : ?>
+              <div class="alert alert-info" role="alert">
+                silahkan masukan email di menu <a href="/profile" class="alert-link">Profile</a> untuk
+                mengaktifkan
+                fitur lupa password
+              </div>
+              <?php endif;?>
+
+              <!-- Page Heading -->
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Home</h1>
+              </div>
+
+              <!-- Content Row -->
+              <div class="row">
+                <div class="col-md">
+                  <h2 class="text-center">Selamat datang <?= $info['username']; ?></h2>
+                </div>
+              </div>
+            </div>
+            <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+          <!-- Footer -->
+          <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+              </div>
+            </div>
+          </footer>
+          <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+        <?= $this->endSection(); ?>

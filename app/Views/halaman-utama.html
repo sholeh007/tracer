@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Viga&display=swap" rel="stylesheet">
+
+  <title><?= $title; ?></title>
+</head>
+
+<body id="home">
+  <header>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="/"><img src="/assets/img/logo.png" alt="logo" style="width: 40px;">
+          Tracer Study
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="#home">Home</a>
+            <a class="nav-item nav-link" href="#tracer">Tracer Study</a>
+            <a class="nav-item nav-link" href="#grafik">Grafik</a>
+            <a class="nav-item btn btn-danger tombol" href="/auth">Login</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- akhir navbar -->
+
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4"><span>Tracer Study</span> STIMIK Sepuluh Nopember Jayapura</h1>
+        <a href="/auth" class="btn btn-danger tombol mt-5">Isi Kuesioner</a>
+      </div>
+    </div>
+    <!-- akhir jumbotron -->
+  </header>
+
+  <article class="mt-5">
+    <!-- tracer -->
+    <section class="tracer" id="tracer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-center">Tracer Study</h2>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 offset-1">
+            <p class="text-justify">Tracer Study merupakan salah satu metode yang digunakan oleh beberapa perguruan
+              tinggi,khususnya di Indonesia untuk memperoleh umpan balik dari alumni. Umpan balik yang diperoleh dari
+              alumni ini dibutuhkan oleh perguruan tinggi dalam usahanya untuk perbaikan serta pengembangan kualitas dan
+              sistem pendidikan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- akhir tracer -->
+
+    <!-- grafik -->
+    <section class="grafik" id="grafik">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 class="text-center">Grafik</h2>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0">Grafik lulusan</h6>
+                <select class="custom-select custom-select-sm my-3" id="lulus" onchange="chartBarUpdate()">
+                  <option selected>total lulusan</option>
+                  <option value="tahun">tahun</option>
+                  <option value="jurusan">jurusan</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="lulusan" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0">Grafik Gender</h6>
+                <select class="custom-select custom-select-sm my-3" id="grafik_gender" onchange="chartPieUpdate()">
+                  <option selected>total gender</option>
+                  <option value="tahun_gender">tahun</option>
+                  <option value="jurusan_gender">jurusan</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="gender" height="200"></canvas>
+                  <canvas id="gender_tahun" height="200"></canvas>
+                  <canvas id="gender_jurusan" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0">Grafik Status Bekerja</h6>
+                <select class="custom-select custom-select-sm my-3" id="grafik_bekerja" onchange="chartBekerjaUpdate()">
+                  <option selected>total status bekerja</option>
+                  <option value="tahun_bekerja">tahun</option>
+                  <option value="jurusan_bekerja">jurusan</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="status_kerja" height="200"></canvas>
+                  <canvas id="tahun_status_kerja" height="200"></canvas>
+                  <canvas id="jurusan_status_kerja" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0">Grafik Penggunaan Pengetahuan pada Pekerjaan</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="penggunaan_pengetahuan" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- akhir grafik -->
+  </article>
+
+  <!-- footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>&COPY; <?= date('Y');?> Tracer Study STIMIK Sepuluh Nopember</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- akhir footer -->
+  <?php 
+  foreach($jurusan as $value) {
+    $kejuruan[] = $value['Jurusan'];
+  }
+  ?>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+  <script src="/assets/vendor/chart.js/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+  <script>
+    const alumni = <?= json_encode($alumni, JSON_HEX_TAG) ?>;
+    const kejuruan = <?= json_encode($kejuruan, JSON_HEX_TAG) ?>;
+    const angkatan = <?= json_encode($angkatan, JSON_HEX_TAG) ?>;
+    const angkatanPria = <?= json_encode($angkatanPria, JSON_HEX_TAG) ?>;
+    const angkatanWanita = <?= json_encode($angkatanWanita, JSON_HEX_TAG) ?>;
+    const jurusanPria = <?= json_encode($jurusanPria, JSON_HEX_TAG) ?>;
+    const jurusanWanita = <?= json_encode($jurusanWanita, JSON_HEX_TAG) ?>;
+    const dataJurusan = <?= json_encode($dataJurusan, JSON_HEX_TAG) ?>;
+    const tahunSudahBekerja = <?= json_encode($tahun_sudah_bekerja, JSON_HEX_TAG) ?>;
+    const tahunBelumBekerja = <?= json_encode($tahun_belum_bekerja, JSON_HEX_TAG) ?>;
+    const jurusanSudahBekerja = <?= json_encode($jurusan_sudah_bekerja, JSON_HEX_TAG) ?>;
+    const jurusanBelumBekerja = <?= json_encode($jurusan_belum_bekerja, JSON_HEX_TAG) ?>;
+    const jmlh_pria = '<?= json_encode($jmlh_pria, JSON_HEX_TAG) ?>';
+    const jmlh_wanita = '<?= json_encode($jmlh_wanita, JSON_HEX_TAG) ?>';
+    const pria = '<?= json_encode($pria, JSON_HEX_TAG) ?>';
+    const wanita = '<?= json_encode($wanita, JSON_HEX_TAG) ?>';
+    const sudah_bekerja = '<?= json_encode($bekerja,JSON_HEX_TAG)?>';
+    const belum_bekerja = '<?= json_encode($belum_bekerja,JSON_HEX_TAG)?>';
+    const persen_sudah_bekerja = '<?= json_encode($persen_bekerja,JSON_HEX_TAG)?>';
+    const persen_belum_bekerja = '<?= json_encode($persen_belum_bekerja,JSON_HEX_TAG)?>';
+    const penggunaanPengetahuan = '<?= json_encode($penggunaanPengetahuan,JSON_HEX_TAG)?>';
+    const persenPenggunaanPengetahuan = '<?= json_encode($persenPenggunaanPengetahuan,JSON_HEX_TAG)?>';
+    const persenBelumPenggunaanPengetahuan = '<?= json_encode($persenBelumPenggunaanPengetahuan,JSON_HEX_TAG)?>';
+  </script>
+  <script src="/assets/js/mychart.js"></script>
+</body>
+
+</html>

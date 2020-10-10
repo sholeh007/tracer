@@ -1,0 +1,145 @@
+<?php if(session()->role_id == 1) :?>
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+  <!-- Main Content -->
+  <div id="content">
+
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <?php if($info['email'] == '') : ?>
+      <div class="alert alert-info" role="alert">
+        silahkan masukan email di menu <a href="/profile" class="alert-link">Profile</a> untuk mengaktifkan
+        fitur
+        lupa password
+      </div>
+      <?php endif; ?>
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Jumlah user</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    <?= $jumlah_user; ?></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-users fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                    Jumlah alumni</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jumlah_alumni;?></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-user fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0">Grafik Responden </h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-area">
+                <canvas id="respon" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- chart js -->
+<script src="/assets/vendor/chart.js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+<!-- my script -->
+<script>
+  const sudah_isi = '<?= json_encode($sudah_isi,JSON_HEX_TAG)?>';
+  const belum_isi = '<?= json_encode($belum_isi,JSON_HEX_TAG)?>';
+  const persen_sudah_isi = '<?= json_encode($persen_sudah_isi,JSON_HEX_TAG)?>';
+  const persen_belum_isi = '<?= json_encode($persen_belum_isi,JSON_HEX_TAG)?>';
+
+  // chart responden
+  let ctx = document.getElementById('respon').getContext('2d');
+  let chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [`sudah respon : ${sudah_isi}`, `belum respon : ${belum_isi}`],
+      datasets: [{
+        data: [
+          Number(persen_sudah_isi).toFixed(2),
+          Number(persen_belum_isi).toFixed(2)
+        ],
+        backgroundColor: [
+          'rgba(207, 0, 15, 1)',
+          'rgba(255, 148, 120, 1)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          color: '#fff',
+          formatter: (value) => {
+            return value + ' %';
+          }
+        }
+      },
+      tooltips: {
+        enabled: false
+      }
+    }
+  });
+  // akhir chart responden
+</script>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>
+<?php else : ?>
+<?php throw new \CodeIgniter\Router\Exceptions\RedirectException('/auth/blocked');; ?>
+<?php endif;?>

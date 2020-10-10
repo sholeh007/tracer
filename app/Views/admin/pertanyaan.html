@@ -1,0 +1,99 @@
+<?php if(session()->role_id == 1) : ?>
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+    <div class="flash" data-flashdata="<?= session()->getFlashdata('pesan'); ?>"></div>
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h3 mb-0 text-gray-800">Pertanyaan kuesioner</h1>
+      </div>
+      <a href="/kuesioner/createpertanyaan" class="btn btn-success btn-icon-split mb-4"><span
+          class="icon text-white-50"><i class="fas fa-question"></i></span> <span class="text">Tambah
+          pertanyaan</span></a>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Data pertanyaan</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered display responsive nowrap" id="myTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Pertanyaan</th>
+                      <th>isi</th>
+                      <th>isi2</th>
+                      <th>isi3</th>
+                      <th>isi4</th>
+                      <th>isi5</th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                    $no = 1;
+                    foreach($quest as $q) : ?>
+                    <tr>
+                      <td><?= $no++;?></td>
+                      <td><?= $q['Pertanyaan']; ?></td>
+                      <td><?= $q['isi1']; ?></td>
+                      <td><?= $q['isi2']; ?></td>
+                      <td><?= $q['isi3']; ?></td>
+                      <td><?= $q['isi4']; ?></td>
+                      <td><?= $q['isi5']; ?></td>
+                      <td>
+                        <a href="/kuesioner/editpertanyaan/<?= $q['idpertanyaan'];?>"
+                          class="btn btn-primary btn-sm">Edit</a>
+                        <form action="/kuesioner/<?= $q['idpertanyaan']; ?>" method="POST" class="d-inline"
+                          onclick="return confirm('Apa anda yakin?');">
+                          <?= csrf_field(); ?>
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                      </td>
+                    </tr>
+                    <?php endforeach;?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>
+<?php else : ?>
+<?php throw new \CodeIgniter\Router\Exceptions\RedirectException('/auth/blocked');; ?>
+<?php endif;?>

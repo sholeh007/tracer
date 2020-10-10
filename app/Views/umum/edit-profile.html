@@ -1,0 +1,92 @@
+<?= $this->extend('template/layout.html'); ?>
+
+<?= $this->section('content'); ?>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <?= $this->include('template/navbar.html'); ?>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Edit profile</h1>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-8">
+          <form enctype="multipart/form-data" action="/profile/saveprofile/<?= $user['iduser'];?>" method="POST">
+            <?= csrf_field(); ?>
+            <input type="hidden" name="gambarLama" value="<?= $user['gambar'];?>">
+            <input type="hidden" name="iduser" value="<?= $user['iduser'];?>">
+
+            <div class="form-group row">
+              <label for="username" class="col-sm-2 col-form-label">Username</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : ''; ?>"
+                  id="username" name="username" value="<?= (old('username')) ? old('username') : $user['username']; ?>">
+                <div class="invalid-feedback">
+                  <?= $validation->getError('username'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>"
+                  id="email" name="email" value="<?= (old('email')) ? old('email') : $user['email']; ?>">
+                <div class="invalid-feedback">
+                  <?= $validation->getError('email'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+              <div class="col-sm-2">
+                <img src="/assets/img/<?= $user['gambar'];?>" class="img-thumbnail img-preview">
+              </div>
+              <div class="col-sm-8">
+                <div class="custom-file">
+                  <input type="file"
+                    class="custom-file-input <?= ($validation->hasError('gambar')) ? 'is-invalid' : ''; ?>"
+                    style="cursor: pointer;" id="gambar" name="gambar"
+                    value="<?= (old('gambar')) ? old('gambar') : $user['gambar']; ?>" onchange="previewImg()">
+                  <div class="invalid-feedback">
+                    <?= $validation->getError('gambar'); ?>
+                  </div>
+                  <label class="custom-file-label" for="gambar"><?= $user['gambar']; ?></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Edit profile</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Tracer Study Alumni Stimik <?= date('Y'); ?></span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+<?= $this->endSection(); ?>
